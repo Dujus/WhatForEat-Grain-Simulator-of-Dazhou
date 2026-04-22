@@ -57,7 +57,7 @@ with st.sidebar.expander("仓储与消耗", expanded=True):
     years = st.slider("模拟年限", 3, 200, 120)
 
     with st.sidebar.expander("目标监测", expanded=False):
-        target_value = st.number_input("设定预期目标 (万)", value=15000.0)
+        target_value = st.number_input("Target", value=15000.0)
 
 # 主界面显示
 st.title("吃什么：《大周列国志》动态粮食与财政模拟器")
@@ -115,11 +115,11 @@ with col2:
 
 # 绘图逻辑
 fig, ax = plt.subplots(figsize=(10, 5))
-ax.plot(times, food_history, color='#e67e22', linewidth=2, label="储粮趋势")
+ax.plot(times, food_history, color='#e67e22', linewidth=2, label="Grain")
 ax.fill_between(times, food_history, alpha=0.2, color='#e67e22')
 
 # 添加预定值的横线
-ax.axhline(y=target_value, color='red', linestyle='--', alpha=0.7, label=f"目标值: {target_value}万")
+ax.axhline(y=target_value, color='red', linestyle='--', alpha=0.7, label=f"Target: {target_value}万")
 
 # 找到第一个大于或等于目标值的索引
 food_array = np.array(food_history)
@@ -133,15 +133,15 @@ if len(idx) > 0:
     first_hit_year = idx[0]
     # 在图表上标出那个点
     ax.plot(first_hit_year, food_history[first_hit_year], "ro")
-    ax.annotate(f"第 {first_hit_year} 年达标",
+    ax.annotate(f" {first_hit_year} ",
                 xy=(first_hit_year, food_history[first_hit_year]),
                 xytext=(first_hit_year + 5, food_history[first_hit_year] + (max(food_history) * 0.05)),
                 arrowprops=dict(facecolor='black', shrink=0.05, width=1, headwidth=5))
 
 
-ax.set_xlabel("年份")
-ax.set_ylabel("储粮总量 (万)")
-ax.set_title("未来储粮变动趋势及目标监测")
+ax.set_xlabel("YEAR")
+ax.set_ylabel("Total Reserves (10k Units)")
+ax.set_title("Grain Reserve Trend Forecast")
 ax.legend()
 ax.grid(True, linestyle='--', alpha=0.4)
 st.pyplot(fig)
